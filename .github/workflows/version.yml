@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: ElaadNL
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Package version check
+
+on:
+  push:
+    tags:
+      - v**
+
+jobs:
+  version:
+    name: Validate version tag match
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # Needed to read tag metadata
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '${{ vars.PYTHON_VERSION }}'
+
+      - name: Verify tag matches both packages
+        run: |
+          python -c "
+          import tomllib, os
+          tag = os.environ['GITHUB_REF_NAME'].lstrip('v')
+          for p in ('s2_cem_lib/pyproject.toml', 'examples/homeassistant/pyproject.toml'):
+              with open(p, 'rb') as f:
+                  assert tomllib.load(f)['project']['version'] == tag, f'{p} version != {tag}'
+          print(f'OK: v{tag}')
+          "

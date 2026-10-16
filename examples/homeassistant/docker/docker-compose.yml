@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: ElaadNL
+#
+# SPDX-License-Identifier: Apache-2.0
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    ports:
+      - "8123:8123"
+    volumes:
+      - homeassistant:/config
+      - ./mount/configuration.yaml:/config/configuration.yaml:ro
+      - ./mount/privkey.pem:/config/privkey.pem:ro
+      - ./mount/fullchain.pem:/config/fullchain.pem:ro
+      - ../src:/config/custom_components/s2_pebc_integration:ro
+      - ../../../s2_cem_lib:/config/s2_cem_lib:ro
+    environment:
+      - PYTHONPATH=/config
+    restart: unless-stopped
+
+volumes:
+  homeassistant:

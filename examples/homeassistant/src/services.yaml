@@ -1,0 +1,119 @@
+# SPDX-FileCopyrightText: ElaadNL
+#
+# SPDX-License-Identifier: Apache-2.0
+
+send_instruction:
+  name: Send PEBC instruction
+  description: >
+    Send a Power Envelope Based Control instruction to a paired Resource Manager.
+    The RM must have sent PowerConstraints first. Each entry in power_envelopes sets
+    upper/lower limits for one commodity quantity (phase), allowing different limits per phase.
+  fields:
+    node_id:
+      name: Node ID
+      description: UUID of the Resource Manager node to send instruction to.
+      required: true
+      selector:
+        text:
+    power_envelopes:
+      name: Power envelopes
+      description: >
+        List of per-phase power limits. Each item requires commodity_quantity, upper_limit and lower_limit.
+        Example:
+         ```
+          - commodity_quantity: ELECTRIC.POWER.L1
+            upper_limit: 1500.0
+            lower_limit: 0.0
+          - commodity_quantity: ELECTRIC.POWER.L2
+            upper_limit: 2000.0
+            lower_limit: 0.0
+          - commodity_quantity: ELECTRIC.POWER.L3
+            upper_limit: 2000.0
+            lower_limit: 0.0
+          ```
+        Valid commodity quantities are (make sure you only use those supported by your device):
+          - `ELECTRIC.POWER.L1`
+          - `ELECTRIC.POWER.L2`
+          - `ELECTRIC.POWER.L3`
+          - `ELECTRIC.POWER.3_PHASE_SYMMETRIC`
+      required: true
+      selector:
+        object:
+    duration:
+      name: Duration (ms)
+      description: How long the instruction is valid, in milliseconds. Default 1 hour (3600000 ms).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 86400000
+          unit_of_measurement: ms
+    execution_time:
+      name: Execution time (UTC)
+      description: >
+        Optional ISO 8601 UTC timestamp when the RM should execute the instruction.
+        Example: '2026-06-16T12:30:00Z' (format: <YYYY-MM-DD>T<HH:MM:SS>Z). If omitted, execute immediately.
+      required: false
+      selector:
+        text:
+    abnormal_condition:
+      name: Abnormal condition
+      description: >
+        Set to true to send a PEBC.Instruction with abnormal_condition = true.
+        When true, the instruction is validated against all allowed limit ranges for each quantity,
+        including those with abnormal_condition_only = true. The instruction value only needs to
+        fall within at least one applicable range. Default is false.
+      required: true
+      selector:
+        boolean:
+
+revoke_instruction:
+  name: Revoke PEBC instruction
+  description: >
+    Revoke a previously sent PEBC.Instruction. If no instruction_id is given,
+    revokes the last sent instruction for that node.
+  fields:
+    node_id:
+      name: Node ID
+      description: UUID of the Resource Manager node.
+      required: true
+      selector:
+        text:
+    instruction_id:
+      name: Instruction ID
+      description: UUID of the instruction to revoke. Leave empty to revoke the last sent instruction.
+      required: false
+      selector:
+        text:
+
+unpair_node:
+  name: Unpair node
+  description: >
+    CEM-initiated unpair of a Resource Manager node. Removes the node's
+    pairing record and closes its active WebSocket connection (if any).
+  fields:
+    node_id:
+      name: Node ID
+      description: UUID of the Resource Manager node to unpair.
+      required: true
+      selector:
+        text:
+
+initiate_pairing:
+  name: Initiate pairing (long-poll)
+  description: >
+    Start pairing with a Resource Manager that has no HTTP server (long-polling).
+    The RM polls /waitForPairing; this wakes it with the requestPairing action.
+  fields:
+    node_id:
+      name: Node ID
+      description: UUID of the long-polling Resource Manager node.
+      required: true
+      selector:
+        text:
+    pairing_token:
+      name: Pairing token
+      description: The RM's static pairing code (min 6 chars).
+      required: true
+      selector:
+        text:

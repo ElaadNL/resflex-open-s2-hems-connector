@@ -1,0 +1,25 @@
+Flaticon License
+================
+
+Source: https://www.flaticon.com/free-icon/home_7042595
+
+This icon is made available by Flaticon (https://www.flaticon.com) under the
+Flaticon License (section 8.1 of the Flaticon Terms of Use).
+
+You are allowed to use this icon for free in personal and commercial projects,
+provided that:
+
+1. You give appropriate credit to the author and Flaticon. The required
+   attribution is:
+   "Server icons created by kerismaker - Flaticon"
+   with a link to https://www.flaticon.com/free-icon/home_7042595
+   
+2. You do not use the icon in printed or electronic items aimed to be resold
+   where the icon is the main element.
+
+3. You do not resell, assign, transfer or sublicense the icon.
+
+4. You do not claim authorship or ownership of the icon.
+
+The full Flaticon license terms are available at:
+https://www.flaticon.com/legal

@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: ElaadNL
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Shared markdownlint config for ElaadNL interoperability documentation
+
+# --- Headings ---
+MD001: true         # Headings should increment by one level at a time
+MD002: true         # First line should be a top-level heading
+MD003:
+  style: atx        # Use ATX-style headings (#) consistently
+
+# --- Lists ---
+MD004:
+  style: dash       # Use dashes (-) for unordered lists
+MD007:
+  indent: 2         # Consistent unordered list indentation
+
+# --- Whitespace ---
+MD009:
+  br_spaces: 2      # Allow 2 spaces at line end (for line breaks)
+  strict: false
+MD010: true         # Disallow hard tabs
+MD012: true         # No multiple consecutive blank lines
+MD013: false        # Do not enforce max line length
+MD022: true         # Headings must be preceded by a blank line
+MD031: true         # Lists must be preceded by a blank line
+MD047: true         # Files must end with a single newline
+
+# --- Formatting ---
+MD033: false        # Allow inline HTML (e.g. <br>)
+MD046:
+  style: fenced   # Use  fenced code blocks
+MD049:
+  style: asterisk   # Use * for emphasis consistently

@@ -1,0 +1,16 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".gitignore",
+    "examples/homeassistant/src/manifest.json",
+    "examples/homeassistant/src/strings.json",
+    "examples/homeassistant/src/translations/en.json",
+]
+SPDX-FileCopyrightText = "ElaadNL"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "examples/homeassistant/src/www/icon.png"
+SPDX-FileCopyrightText = "kerismaker - Flaticon (https://www.flaticon.com/free-icon/home_7042595)"
+SPDX-License-Identifier = "LicenseRef-Flaticon"

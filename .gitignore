@@ -1,0 +1,34 @@
+.idea
+.vscode
+venv
+build
+*.egg-info
+htmlcov
+.coverage
+coverage.xml
+requirements.txt
+__pycache__
+.pytest_cache
+.ruff_cache
+.venv
+.venv-clean
+
+# TLS private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Mock RM state files
+mock_rm/state/*.json
+
+# CEM engine state files (paired nodes and access tokens)
+cem_engine/state/*.json
+
+# dependency track files
+sbom*.json
+payload.json
+reqs.txt
+_tmpvenv/
+# macOS
+.DS_Store

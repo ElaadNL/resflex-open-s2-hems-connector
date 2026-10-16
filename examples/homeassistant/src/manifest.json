@@ -1,0 +1,10 @@
+{
+  "domain": "s2_pebc_integration",
+  "name": "S2 PEBC Integration",
+  "version": "1.0.0",
+  "config_flow": true,
+  "iot_class": "local_push",
+  "requirements": ["aiohttp>=3.9.0", "s2-python>=0.8.1"],
+  "dependencies": [],
+  "codeowners": ["@a.krantz"]
+}

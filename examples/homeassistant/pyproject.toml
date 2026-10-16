@@ -1,0 +1,101 @@
+# SPDX-FileCopyrightText: ElaadNL
+#
+# SPDX-License-Identifier: Apache-2.0
+
+[project]
+name = "homeassistant-s2"
+version = "1.0.0"
+license = "Apache-2.0"
+description = "Example implementation of the S2 protocol for a Home Energy Management Systems (HEMS) for Home Assistant"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "s2-cem-lib",
+    "s2-python>=0.9.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "s2-python[ws]>=0.9.1",
+    "homeassistant>=2026.2.3,<2026.3.0",
+    "ruff>=0.16.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "coverage>=7.15.2",
+    "pip-audit>=2.10.1",
+    "pip-licenses>=5.5.5",
+    "setuptools>=83.0.0"
+]
+
+[project.urls]
+Repository = "https://github.com/ElaadNL/resflex-open-s2-hems-connector"
+Documentation = "https://github.com/ElaadNL/resflex-open-s2-hems-connector/wiki"
+Issues = "https://github.com/ElaadNL/resflex-open-s2-hems-connector/issues"
+Changelog = "https://github.com/ElaadNL/resflex-open-s2-hems-connector/blob/main/CHANGELOG.md"
+
+[tool.ruff]
+line-length = 160
+show-fixes = true
+src = ["src"]
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest]
+minversion = "9.0"
+addopts = ["--import-mode=importlib"]
+pythonpath = [".", "../.."]
+testpaths = [
+    "tests"
+]
+filterwarnings = [
+    # Suppress deprecation warnings from homeassistant code (not ours).
+    "ignore::DeprecationWarning:homeassistant",
+    "ignore::DeprecationWarning:aiohttp",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.coverage.run]
+branch = true
+command_line = "-m pytest"
+source = [
+    "src"
+]
+
+[tool.pip-licenses]
+from = "mixed"
+allow-only = """
+    Apache-2.0;
+    Apache-2.0 AND MIT;
+    Apache-2.0 AND CNRI-Python;
+    Apache-2.0 OR BSD-3-Clause;
+    Apache-2.0 OR MIT;
+    Apache-2.0 OR BSD-2-Clause;
+    Apache License 2.0;
+    Apache Software License;
+    BSD License;
+    BSD-2-Clause;
+    BSD-3-Clause;
+    MIT;
+    MIT License;
+    MIT-0;
+    MIT-CMU;
+    MIT AND PSF-2.0;
+    Mozilla Public License 2.0 (MPL 2.0);
+    PSF-2.0;
+    Python Software Foundation License;
+    CNRI-Python;
+    GPL-3.0-only;
+    GNU General Public License v3 (GPLv3);
+    GNU General Public License (GPL);
+    GNU General Public License v2 or later (GPLv2+);
+    GNU Lesser General Public License v3 (LGPLv3);
+    LGPL-2.1-or-later;
+    Artistic License;
+    Artistic;
+    Python Software Foundation;
+    Apache;
+    """

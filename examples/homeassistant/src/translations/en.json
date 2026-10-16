@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up S2 PEBC",
+        "description": "Turns Home Assistant into an S2 CEM that Resource Managers (EV chargers, heat pumps, etc.) can connect to over WebSocket.\n\nYour Home Assistant URL: `{baseUrl}`\n\n1. Click **Submit** on this dialog box.\n2. Start the pairing process from your Resource Manager.\n\nAfter initiating pairing, open this integration's **Configure** (settings button) to get a one-time pairing token or check your Home Assistant notifications."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only one instance of S2 PEBC is allowed.",
+      "not_loaded": "The S2 PEBC integration is not running. Reload the integration and try again."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pair a Resource Manager",
+        "description": "Enter the following in the pairing interface of your Resource Manager:\n\n**HA URL:** `{baseUrl}`\n\n**Token:** `{token}`\n\n**Valid until:** {validUntil}\n\nClick Submit once you have entered the credentials."
+      }
+    }
+  }
+}

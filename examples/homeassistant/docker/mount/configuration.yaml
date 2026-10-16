@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: ElaadNL
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Add tls support
+http:
+  ssl_key: /config/privkey.pem
+  ssl_certificate: /config/fullchain.pem
+
+# Internal URL for DNS-SD discovery on LAN
+homeassistant:
+  internal_url: https://homeassistant.local:8123

@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: ElaadNL
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Dependencies check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  audit:
+    name: Audit dependencies with pip-audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '${{ vars.PYTHON_VERSION }}'
+
+      - name: Cache pip dependencies
+        id: cache-pip
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('s2_cem_lib/pyproject.toml', 'examples/homeassistant/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Audit s2_cem_lib
+        run: |
+          cd s2_cem_lib
+          pip install -e .
+          pip freeze --exclude-editable > requirements.txt
+          pip install -e '.[dev]'
+          pip-audit -r requirements.txt --no-deps --disable-pip
+        continue-on-error: true
+
+      - name: Audit HA example
+        run: |
+          pip install -e s2_cem_lib
+          cd examples/homeassistant
+          pip install -e .
+          pip freeze --exclude-editable > requirements.txt
+          pip install -e '.[dev]'
+          pip-audit -r requirements.txt --no-deps --disable-pip
+        continue-on-error: true
