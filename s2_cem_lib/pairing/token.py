@@ -37,9 +37,21 @@ class Token:
         return token
 
     @classmethod
+    def _random_base64(cls, valid_duration: timedelta, nbytes: int = 32) -> Token:
+        """A token of nbytes random bytes, Base64 encoded.
+
+        Peers decode these tokens and require at least 32 bytes. An alphanumeric
+        string of 32 characters decodes to only 24 bytes, so it is rejected.
+        """
+        token = cls.__new__(cls)
+        token._value = base64.b64encode(secrets.token_bytes(nbytes)).decode("ascii")
+        token.valid_till = datetime.now(UTC) + valid_duration
+        return token
+
+    @classmethod
     def comm_token(cls):
         """Generate a communication token valid for a short duration."""
-        return Token(32, timedelta(seconds=COMM_TOKEN_TIMEOUT_SECONDS))
+        return cls._random_base64(timedelta(seconds=COMM_TOKEN_TIMEOUT_SECONDS))
 
     @classmethod
     def access_token(cls):
@@ -47,7 +59,7 @@ class Token:
         Generate an access token
         :return: The token
         """
-        return Token(32, timedelta(days=ACCESS_TOKEN_TIMEOUT_DAYS))
+        return cls._random_base64(timedelta(days=ACCESS_TOKEN_TIMEOUT_DAYS))
 
     def check(self, other_token: str) -> bool:
         """

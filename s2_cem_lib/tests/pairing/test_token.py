@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 """Tests for Token generation and validation."""
+import base64
 from datetime import UTC, datetime, timedelta
+
+import pytest
 
 from s2_cem_lib.pairing.pairing_token import PairingToken
 from s2_cem_lib.pairing.token import Token
@@ -14,19 +17,15 @@ def test_pairing_token_length():
     assert len(token.value) == 6
 
 
-def test_access_token_length():
-    token = Token.access_token()
-    assert len(token.value) == 32
+@pytest.mark.parametrize("factory", [Token.access_token, Token.comm_token])
+def test_token_is_base64_of_at_least_32_bytes(factory):
+    """S2 Connect peers Base64-decode access and communication tokens and require at least 32 bytes.
 
-
-def test_comm_token_length():
-    token = Token.comm_token()
-    assert len(token.value) == 32
-
-
-def test_token_is_alphanumeric():
-    token = Token.access_token()
-    assert token.value.isalnum()
+    A 32 character alphanumeric token is valid Base64 but decodes to only 24 bytes,
+    so a peer built on this library rejects it.
+    """
+    token = factory()
+    assert len(base64.b64decode(token.value, validate=True)) >= 32
 
 
 def test_check_correct_token():
