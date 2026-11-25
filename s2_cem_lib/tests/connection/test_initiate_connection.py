@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 """Tests for InitiateSessionView and ConfirmAccessTokenView (S2 Connect session initiation)."""
+import base64
 import json
 import uuid
 from unittest.mock import AsyncMock, MagicMock
@@ -57,7 +58,7 @@ async def test_initiate_session_returns_pending_access_token(server: PairingServ
     assert response.status == 200
     payload = json.loads(response.text)
     assert "accessToken" in payload
-    assert len(payload["accessToken"]) == 32
+    assert len(base64.b64decode(payload["accessToken"], validate=True)) >= 32
     assert "selectedS2MessageVersion" in payload
     assert payload["selectedS2MessageVersion"] == TEST_S2_VERSION
     assert "selectedCommunicationProtocol" in payload
@@ -127,6 +128,7 @@ async def test_confirm_access_token_activates_and_returns_ws_details(server: Pai
     payload = json.loads(response.text)
     assert payload["communicationProtocol"] == "WebSocket"
     assert "websocketToken" in payload
+    assert len(base64.b64decode(payload["websocketToken"], validate=True)) >= 32
     assert "websocketUrl" in payload
 
     # Old token now invalid
